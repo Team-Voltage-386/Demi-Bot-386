@@ -14,14 +14,14 @@ import edu.wpi.first.math.util.Units;
 
 public class DriveConstants {
   public static final double maxSpeedMetersPerSec = 4.0;
-  public static final double trackWidth = Units.inchesToMeters(26.0);
+  public static final double trackWidth = Units.inchesToMeters(10.5);
 
   // Device CAN IDs
-  public static final int pigeonCanId = 9;
-  public static final int leftLeaderCanId = 1;
-  public static final int leftFollowerCanId = 2;
-  public static final int rightLeaderCanId = 3;
-  public static final int rightFollowerCanId = 4;
+  // public static final int pigeonCanId = 9;
+  public static final int leftLeaderCanId = 3;
+  // public static final int leftFollowerCanId = 2;
+  public static final int rightLeaderCanId = 7;
+  // public static final int rightFollowerCanId = 4;
 
   // Motor configuration
   public static final int currentLimit = 60;

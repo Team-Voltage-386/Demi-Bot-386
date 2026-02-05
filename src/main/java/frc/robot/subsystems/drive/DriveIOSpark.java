@@ -30,8 +30,6 @@ import java.util.function.DoubleSupplier;
 public class DriveIOSpark implements DriveIO {
   private final SparkMax leftLeader = new SparkMax(leftLeaderCanId, MotorType.kBrushless);
   private final SparkMax rightLeader = new SparkMax(rightLeaderCanId, MotorType.kBrushless);
-  private final SparkMax leftFollower = new SparkMax(leftFollowerCanId, MotorType.kBrushless);
-  private final SparkMax rightFollower = new SparkMax(rightFollowerCanId, MotorType.kBrushless);
   private final RelativeEncoder leftEncoder = leftLeader.getEncoder();
   private final RelativeEncoder rightEncoder = rightLeader.getEncoder();
   private final SparkClosedLoopController leftController = leftLeader.getClosedLoopController();
@@ -65,22 +63,6 @@ public class DriveIOSpark implements DriveIO {
         () ->
             rightLeader.configure(
                 config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
-
-    // Apply config to followers
-    config.inverted(leftInverted).follow(leftLeader);
-    tryUntilOk(
-        leftFollower,
-        5,
-        () ->
-            leftFollower.configure(
-                config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
-    config.inverted(rightInverted).follow(rightLeader);
-    tryUntilOk(
-        rightFollower,
-        5,
-        () ->
-            rightFollower.configure(
-                config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters));
   }
 
   @Override
@@ -91,10 +73,6 @@ public class DriveIOSpark implements DriveIO {
         leftLeader,
         new DoubleSupplier[] {leftLeader::getAppliedOutput, leftLeader::getBusVoltage},
         (values) -> inputs.leftAppliedVolts = values[0] * values[1]);
-    ifOk(
-        leftLeader,
-        new DoubleSupplier[] {leftLeader::getOutputCurrent, leftFollower::getOutputCurrent},
-        (values) -> inputs.leftCurrentAmps = values);
 
     ifOk(rightLeader, rightEncoder::getPosition, (value) -> inputs.rightPositionRad = value);
     ifOk(rightLeader, rightEncoder::getVelocity, (value) -> inputs.rightVelocityRadPerSec = value);
