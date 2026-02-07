@@ -20,6 +20,7 @@ import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.DoubleSupplier;
+import org.littletonrobotics.junction.Logger;
 
 public class DriveCommands {
   private static final double DEADBAND = 0.1;
@@ -61,8 +62,14 @@ public class DriveCommands {
           double leftY = MathUtil.applyDeadband(leftSupplier.getAsDouble(), DEADBAND);
           double rightY = MathUtil.applyDeadband(rightSupplier.getAsDouble(), DEADBAND);
 
+          leftY = leftY * 12.0;
+          rightY = rightY * 12.0;
+
+          Logger.recordOutput("tankDrive/leftVoltage", leftY);
+          Logger.recordOutput("tankDrive/rightVoltage", rightY);
+
           // Apply output
-          drive.runOpenLoop(leftY * 12, rightY * 12);
+          drive.runOpenLoop(leftY, rightY);
         },
         drive);
   }
