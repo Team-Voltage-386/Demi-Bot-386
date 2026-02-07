@@ -14,7 +14,7 @@ import edu.wpi.first.math.util.Units;
 
 public class DriveConstants {
   public static final double maxSpeedMetersPerSec = 4.0;
-  public static final double trackWidth = Units.inchesToMeters(10.5);
+  public static final double trackWidth = Units.inchesToMeters(11.5);
 
   // Device CAN IDs
   // public static final int pigeonCanId = 9;
