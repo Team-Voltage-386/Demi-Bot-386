@@ -49,6 +49,24 @@ public class DriveCommands {
         drive);
   }
 
+  /**
+   * Standard joystick drive, where X is the forward-backward axis (positive = forward) and Z is the
+   * left-right axis (positive = counter-clockwise).
+   */
+  public static Command tankDrive(
+      Drive drive, DoubleSupplier leftSupplier, DoubleSupplier rightSupplier) {
+    return Commands.run(
+        () -> {
+          // Apply deadband
+          double leftY = MathUtil.applyDeadband(leftSupplier.getAsDouble(), DEADBAND);
+          double rightY = MathUtil.applyDeadband(rightSupplier.getAsDouble(), DEADBAND);
+
+          // Apply output
+          drive.runOpenLoop(leftY * 12, rightY * 12);
+        },
+        drive);
+  }
+
   /** Measures the velocity feedforward constants for the drive. */
   public static Command feedforwardCharacterization(Drive drive) {
     List<Double> velocitySamples = new LinkedList<>();

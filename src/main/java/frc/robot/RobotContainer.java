@@ -85,10 +85,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Default command, normal arcade drive
+    // Default command, normal tank drive
     drive.setDefaultCommand(
-        DriveCommands.arcadeDrive(
-            drive, () -> -controller.getLeftY(), () -> -controller.getRightX()));
+        DriveCommands.tankDrive(
+            drive, () -> -controller.getLeftY(), () -> -controller.getRightY()));
   }
 
   /**
